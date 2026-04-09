@@ -4,10 +4,10 @@ export default function Editor({ handleKeyDown, handlePaste }: any) {
 
   return (
     <textarea
-      value={text}
+      value={text} //react controls the text so the ui stays consisten
       onChange={(e) => setText(e.target.value)}
-      onKeyDown={handleKeyDown}
-      onPaste={handlePaste}
+      onKeyDown={handleKeyDown} //this tracks every key pressed so yeah it is our main datasource
+      onPaste={handlePaste} //self explanatory basically
       style={{
         width: "100%",
         height: "300px",

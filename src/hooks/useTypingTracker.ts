@@ -11,18 +11,18 @@ useEffect(() => {
 
   return () => clearInterval(interval);
 }, []);
-  //  this is the state for UI
+  //  this is the state for UI and initially it is set to idle
   const [status, setStatus] = useState("Idle");
 
   // these are the REFS for performance
   const startTime = useRef<number | null>(null);
   const lastKeyTime = useRef<number | null>(null);
 
-  const totalChars = useRef(0);
-  const intervals = useRef<number[]>([]);
+  const totalChars = useRef(0); //useRef is used for storing values without rerender(performance optimization basically)
+  const intervals = useRef<number[]>([]); //this is the time gap between keys 
   const wpmSeries = useRef<number[]>([]);
 
-  const pauseCount = useRef(0);
+  const pauseCount = useRef(0); //these lines are for the actual detection of data related to pauses and stuff
   const longPauses = useRef<number[]>([]);
   const punctuationPauses = useRef<number[]>([]);
 
@@ -30,7 +30,7 @@ useEffect(() => {
   const pasteCount = useRef(0);
   const pastedLength = useRef(0);
 
-  const lastChar = useRef<string | null>(null);
+  const lastChar = useRef<string | null>(null); //this is character tracking for punctuation pause detection
 
   const intervalCharCount = useRef(0);
 
@@ -40,14 +40,14 @@ useEffect(() => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const now = Date.now();
 
-    if (!startTime.current) startTime.current = now;
+    if (!startTime.current) startTime.current = now; //session begins as soon as the first key is pressed
 
-    // so, this tracks interval tracking 
+    // so this is the interval tracking
     if (lastKeyTime.current) {
       const diff = now - lastKeyTime.current;
       intervals.current.push(diff);
 
-      // and this will track pause detection
+      // and this will track pause detection so long pause means thinking
       if (diff > 2000) {
         pauseCount.current++;
         longPauses.current.push(diff);
@@ -56,7 +56,7 @@ useEffect(() => {
         setStatus("Typing...");
       }
 
-      // this detects the punctuation pause
+      // this detects the punctuation pause or the delay after punctuation 
       if (lastChar.current && /[.,!?]/.test(lastChar.current)) {
         if (diff > 500) {
           punctuationPauses.current.push(diff);
@@ -64,7 +64,7 @@ useEffect(() => {
       }
     }
 
-    lastKeyTime.current = now;
+    lastKeyTime.current = now; //updates the last key time for the next interval calculation
 
     // this will take care of the backspace tracking 
     if (e.key === "Backspace") {
