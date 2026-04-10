@@ -95,13 +95,14 @@ const appStyles = {
 };
 
 function App() {
-  const tracker = useTypingTracker();
 
   const [results, setResults] = useState<{ wpm: number; errorRate: number } | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [sessionStarted, setSessionStarted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+
+  const tracker = useTypingTracker(email);//added email tracker
 
   const appendSessionToStorage = (sessionData: unknown, userName: string, userEmail: string) => {
     const timestamp = Date.now();
@@ -146,6 +147,17 @@ function App() {
   const handleFinish = () => {
     const finalSession = tracker.processFinalData();
     if (!finalSession) return;
+
+    fetch("http://localhost:5000/log", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        data: finalSession,
+      }),
+    });
 
     const minutes = finalSession.sessionDuration / 60000;
     const wpm = minutes > 0 ? (finalSession.totalCharacters / 5) / minutes : 0;
