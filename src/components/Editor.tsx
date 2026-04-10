@@ -35,7 +35,7 @@ export default function Editor({ handleKeyDown, handlePaste, handleFocus, handle
 
   return (
     <textarea
-      value={text}
+      value={text} 
       onChange={(e) => setText(e.target.value)}
       onKeyDown={handleKeyDown}
       onPaste={handlePaste}
@@ -46,7 +46,6 @@ export default function Editor({ handleKeyDown, handlePaste, handleFocus, handle
         backgroundColor: isFocused ? "rgba(102, 126, 234, 0.05)" : "transparent",
       }}
       placeholder="Start typing your text here..."
-      placeholderStyle={{ color: "#9ca3af" }}
     />
   );
 }
