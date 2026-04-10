@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useTypingTracker } from "./hooks/useTypingTracker";
 import Editor from "./components/Editor";
-import DevConsole from "./components/DevConsole";
 
 const appStyles = {
   container: {
@@ -97,16 +96,69 @@ const appStyles = {
 
 function App() {
   const tracker = useTypingTracker();
-  const [showResults, setShowResults] = useState(false);
+
+  const [results, setResults] = useState<{ wpm: number; errorRate: number } | null>(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [sessionStarted, setSessionStarted] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  const appendSessionToStorage = (sessionData: unknown, userName: string, userEmail: string) => {
+    const timestamp = Date.now();
+    const sessionEntry = {
+      name: userName,
+      email: userEmail,
+      sessionData,
+      timestamp,
+    };
+
+    try {
+      const existing = localStorage.getItem("vi-notes-sessions");
+      const parsed = existing ? JSON.parse(existing) : [];
+      const sessions = Array.isArray(parsed) ? parsed : [];
+      sessions.push(sessionEntry);
+      localStorage.setItem("vi-notes-sessions", JSON.stringify(sessions));
+    } catch {
+      localStorage.setItem("vi-notes-sessions", JSON.stringify([sessionEntry]));
+    }
+  };
+
+  const validateAndStartSession = () => {
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+
+    if (!trimmedName || !trimmedEmail) {
+      setFormError("Name and email are required");
+      return;
+    }
+
+    if (!trimmedEmail.includes("@")) {
+      setFormError("Please enter a valid email");
+      return;
+    }
+
+    setFormError(null);
+    setName(trimmedName);
+    setEmail(trimmedEmail);
+    setSessionStarted(true);
+  };
 
   const handleFinish = () => {
-    tracker.processFinalData();
-    setShowResults(true);
+    const finalSession = tracker.processFinalData();
+    if (!finalSession) return;
+
+    const minutes = finalSession.sessionDuration / 60000;
+    const wpm = minutes > 0 ? (finalSession.totalCharacters / 5) / minutes : 0;
+    const errorRate = finalSession.totalCharacters > 0 ? finalSession.totalBackspaces / finalSession.totalCharacters : 0;
+
+    appendSessionToStorage(finalSession, name, email);
+    setResults({ wpm, errorRate });
   };
 
   const handleReset = () => {
     tracker.resetSession();
-    setShowResults(false);
+    setResults(null);
+    setSessionStarted(true);
   };
 
   const getStatusStyle = () => {
@@ -132,7 +184,78 @@ function App() {
           <p style={appStyles.subtitle}>Behavioral Biometrics Authorship Verification</p>
         </div>
 
-        {!showResults ? (
+        {!sessionStarted ? (
+          <div style={appStyles.card}>
+            <div style={{ maxWidth: "520px", margin: "0 auto" }}>
+              <div style={{ fontSize: "18px", fontWeight: 600, color: "#2c3e50", textAlign: "center" }}>
+                Identify Yourself
+              </div>
+
+              <div style={{ marginTop: "20px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 600, color: "#5a6c7d", marginBottom: "6px" }}>
+                  Name
+                </div>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "12px 14px",
+                    fontSize: "16px",
+                    borderRadius: "4px",
+                    border: "1px solid rgba(0, 0, 0, 0.12)",
+                    outline: "none",
+                    boxSizing: "border-box",
+                  }}
+                  placeholder="Your name"
+                />
+              </div>
+
+              <div style={{ marginTop: "16px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 600, color: "#5a6c7d", marginBottom: "6px" }}>
+                  Email
+                </div>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "12px 14px",
+                    fontSize: "16px",
+                    borderRadius: "4px",
+                    border: "1px solid rgba(0, 0, 0, 0.12)",
+                    outline: "none",
+                    boxSizing: "border-box",
+                  }}
+                  placeholder="name@example.com"
+                />
+              </div>
+
+              {formError && (
+                <div style={{ marginTop: "14px", textAlign: "center", color: "#721c24", fontWeight: 600, fontSize: "13px" }}>
+                  {formError}
+                </div>
+              )}
+
+              <div style={appStyles.buttonContainer}>
+                <button
+                  onClick={validateAndStartSession}
+                  style={{ ...appStyles.button, ...appStyles.primaryButton }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = "#5568d3";
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = "#667eea";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  }}
+                >
+                  Start Session
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : !results ? (
           <div style={appStyles.card}>
             <Editor
               handleKeyDown={tracker.handleKeyDown}
@@ -163,29 +286,33 @@ function App() {
             </div>
           </div>
         ) : (
-          <>
-            {tracker.sessionData && (
-              <div>
-                <div style={appStyles.buttonContainer}>
-                  <button
-                    onClick={handleReset}
-                    style={{ ...appStyles.button, ...appStyles.secondaryButton }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = "#5a6268";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = "#6c757d";
-                      e.currentTarget.style.transform = "translateY(0)";
-                    }}
-                  >
-                    Start New Session
-                  </button>
-                </div>
-                <DevConsole sessionData={tracker.sessionData} onClose={() => {}} />
+          <div style={appStyles.card}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "20px", fontWeight: 600, color: "#2c3e50" }}>
+                WPM: {results.wpm.toFixed(1)}
               </div>
-            )}
-          </>
+              <div style={{ fontSize: "20px", fontWeight: 600, color: "#2c3e50", marginTop: "12px" }}>
+                Error Rate: {results.errorRate.toFixed(3)}
+              </div>
+            </div>
+
+            <div style={appStyles.buttonContainer}>
+              <button
+                onClick={handleReset}
+                style={{ ...appStyles.button, ...appStyles.secondaryButton }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = "#5a6268";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = "#6c757d";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                Start New Session
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>

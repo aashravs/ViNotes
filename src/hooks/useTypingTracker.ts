@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback } from "react";
+import type { KeyboardEvent, ClipboardEvent } from "react";
 import { useKeystrokeDynamics, calculatePunctuationPauseStats, calculateRhythmEntropy } from "./useKeystrokeDynamics";
 import { useBurstDetection } from "./useBurstDetection";
 import { analyzeSession } from "../utils/detectionEngine";
@@ -7,7 +8,6 @@ import { SessionData, PasteEvent, FocusEvent } from "../types/session";
 export function useTypingTracker() {
   // State for UI
   const [status, setStatus] = useState("Idle");
-  const [sessionData, setSessionData] = useState<SessionData | null>(null);
 
   // Custom hooks for advanced telemetry
   const keystrokeDynamics = useKeystrokeDynamics();
@@ -23,7 +23,6 @@ export function useTypingTracker() {
 
   const pauseCount = useRef(0);
   const longPauses = useRef<number[]>([]);
-  const punctuationPauses = useRef<number[]>([]);
 
   const backspaceCount = useRef(0);
   const pasteEvents = useRef<PasteEvent[]>([]);
@@ -31,73 +30,108 @@ export function useTypingTracker() {
   const lastBlurTime = useRef<number | null>(null);
   const timeSpentOffPage = useRef(0);
 
-  const lastChar = useRef<string | null>(null);
-
   const intervalCharCount = useRef(0);
   const isSessionActive = useRef(false);
 
+  const lastSessionData = useRef<SessionData | null>(null);
+
+  const processKeystrokeData = useCallback((): SessionData | null => {
+    if (!startTime.current) return null;
+
+    const endTime = Date.now();
+    const sessionDuration = endTime - startTime.current;
+
+    const keystrokeIntervals = keystrokeDynamics.getKeystrokeIntervals();
+    const averageInterval = keystrokeIntervals.length
+      ? keystrokeIntervals.reduce((sum, value) => sum + value, 0) / keystrokeIntervals.length
+      : 0;
+    const intervalStdDev = calculateRhythmEntropy(keystrokeIntervals);
+
+    const punctuationPauseEvents = keystrokeDynamics.getPunctuationPauses();
+    const punctuationPauseStats = calculatePunctuationPauseStats(punctuationPauseEvents);
+
+    const burstWindows = burstDetection.getBurstWindows();
+    const burstVariance = burstDetection.getBurstVariance();
+    const isPotentialBot = burstDetection.isPotentialBot();
+
+    const totalPasteCount = pasteEvents.current.length;
+    const totalPastedLength = pasteEvents.current.reduce((sum, event) => sum + event.length, 0);
+    const largePasteEvents = pasteEvents.current.filter(event => event.length > 200);
+
+    const blurCount = focusEvents.current.filter(event => event.type === "blur").length;
+    const backspaceRatio = totalChars.current > 0 ? backspaceCount.current / totalChars.current : 0;
+    const correctionRate = totalChars.current > 0 ? (backspaceCount.current / totalChars.current) * 1000 : 0;
+
+    const analysis = analyzeSession({
+      intervalStdDev,
+      averagePunctuationPause: punctuationPauseStats.average,
+      punctuationPauseStdDev: punctuationPauseStats.stdDev,
+      backspaceRatio,
+      totalCharacters: totalChars.current,
+      burstVariance,
+      isPotentialBot,
+      totalPasteCount,
+      totalPastedLength,
+      largePasteEvents,
+      timeSpentOffPage: timeSpentOffPage.current,
+      sessionDuration,
+      blurCount,
+    });
+
+    const data: SessionData = {
+      totalCharacters: totalChars.current,
+      totalBackspaces: backspaceCount.current,
+      sessionDuration,
+      sessionStartTime: startTime.current,
+      sessionEndTime: endTime,
+
+      keystrokeIntervals,
+      averageInterval,
+      intervalStdDev,
+
+      burstWindows,
+      burstVariance,
+      isPotentialBot,
+
+      punctuationPauses: punctuationPauseEvents,
+      averagePunctuationPause: punctuationPauseStats.average,
+      punctuationPauseStdDev: punctuationPauseStats.stdDev,
+
+      backspaceRatio,
+      correctionRate,
+
+      pasteEvents: pasteEvents.current,
+      totalPasteCount,
+      totalPastedLength,
+      largePasteEvents,
+
+      focusEvents: focusEvents.current,
+      timeSpentOffPage: timeSpentOffPage.current,
+      blurCount,
+
+      humanAuthenticityScore: analysis.score,
+      confidenceLevel: analysis.confidenceLevel,
+      riskFlags: analysis.riskFlags,
+    };
+
+    lastSessionData.current = data;
+    return data;
+  }, [burstDetection, keystrokeDynamics]);
+
   // Process final data when Finish button is clicked
   const processFinalData = useCallback(() => {
-    if (!startTime.current) return;
+    if (!startTime.current) return null;
     
     // End the session
     isSessionActive.current = false;
     setStatus("Session Ended");
     
     // Process all data
-    processKeystrokeData();
+    return processKeystrokeData();
   }, [processKeystrokeData]);
 
-  // Process keystroke data and run detection engine
-  const processKeystrokeData = useCallback(() => {
-    if (!startTime.current) return;
-
-    const endTime = Date.now();
-    const sessionDuration = endTime - startTime.current;
-
-    // Calculate WPM
-    const minutes = sessionDuration / 60000;
-    const avgWPM = minutes > 0 ? (totalChars.current / 5) / minutes : 0;
-
-    // Get data from custom hooks
-    const keystrokeIntervals = keystrokeDynamics.getKeystrokeIntervals();
-    const punctuationPauseStats = calculatePunctuationPauseStats(punctuationPauses.current);
-    const rhythmEntropy = calculateRhythmEntropy(keystrokeIntervals);
-    const burstData = burstDetection.getBurstData();
-
-    // Build session data object
-    const data: SessionData = {
-      startTime: startTime.current,
-      endTime,
-      sessionDuration,
-      totalCharacters: totalChars.current,
-      totalPastedLength: pasteEvents.current.reduce((sum, event) => sum + event.length, 0),
-      pasteEvents: pasteEvents.current,
-      avgWPM,
-      intervals: intervals.current,
-      wpmSeries: wpmSeries.current,
-      pauseCount: pauseCount.current,
-      longPauses: longPauses.current,
-      punctuationPauses: punctuationPauses.current,
-      backspaceCount: backspaceCount.current,
-      keystrokeIntervals,
-      punctuationPauseStats,
-      rhythmEntropy,
-      burstWindows: burstData.burstWindows,
-      burstVariance: burstData.variance,
-      isPotentialBot: burstData.isPotentialBot,
-      focusEvents: focusEvents.current,
-      blurCount: focusEvents.current.filter(e => e.type === 'blur').length,
-      timeSpentOffPage: timeSpentOffPage.current,
-    };
-
-    // Run detection engine
-    const analysis = analyzeSession(data);
-    setSessionData(analysis);
-  }, [keystrokeDynamics, burstDetection]);
-
   // Handle key down - collect data only, no processing
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const now = Date.now();
 
     if (!startTime.current) {
@@ -126,12 +160,6 @@ export function useTypingTracker() {
         longPauses.current.push(diff);
       }
 
-      // Track punctuation pauses
-      if (lastChar.current && /[.,!?]/.test(lastChar.current)) {
-        if (diff > 500) {
-          punctuationPauses.current.push(diff);
-        }
-      }
     }
 
     lastKeyTime.current = now;
@@ -145,7 +173,7 @@ export function useTypingTracker() {
   }, [burstDetection, keystrokeDynamics]);
 
   // Handle paste with individual event tracking
-  const handlePaste = useCallback((e: React.ClipboardEvent) => {
+  const handlePaste = useCallback((e: ClipboardEvent) => {
     const pastedText = e.clipboardData.getData("text");
     const now = Date.now();
     const timestampRelative = startTime.current ? now - startTime.current : 0;
@@ -196,20 +224,35 @@ export function useTypingTracker() {
     wpmSeries.current = [];
     pauseCount.current = 0;
     longPauses.current = [];
-    punctuationPauses.current = [];
     backspaceCount.current = 0;
     pasteEvents.current = [];
     focusEvents.current = [];
     lastBlurTime.current = null;
     timeSpentOffPage.current = 0;
-    lastChar.current = null;
     intervalCharCount.current = 0;
     isSessionActive.current = false;
+    lastSessionData.current = null;
     keystrokeDynamics.reset();
     burstDetection.reset();
-    setSessionData(null);
     setStatus("Idle");
   }, [keystrokeDynamics, burstDetection]);
+
+  const getSessionMetrics = useCallback(() => {
+    if (lastSessionData.current) {
+      return {
+        totalCharacters: lastSessionData.current.totalCharacters,
+        totalBackspaces: lastSessionData.current.totalBackspaces,
+        sessionDuration: lastSessionData.current.sessionDuration,
+      };
+    }
+
+    const sessionDuration = startTime.current ? Date.now() - startTime.current : 0;
+    return {
+      totalCharacters: totalChars.current,
+      totalBackspaces: backspaceCount.current,
+      sessionDuration,
+    };
+  }, []);
 
   return {
     status,
@@ -217,8 +260,8 @@ export function useTypingTracker() {
     handlePaste,
     handleFocus,
     handleBlur,
-    sessionData,
     resetSession,
     processFinalData,
+    getSessionMetrics,
   };
 }
