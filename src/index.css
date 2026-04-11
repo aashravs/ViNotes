@@ -1,0 +1,14 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #c07a54;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8a766d;
+  opacity: 1;
+}

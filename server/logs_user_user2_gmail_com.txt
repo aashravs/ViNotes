@@ -1,0 +1,392 @@
+
+====================
+Time: 2026-04-11T10:58:14.526Z
+{
+  "totalCharacters": 170,
+  "totalBackspaces": 12,
+  "sessionDuration": 39474,
+  "sessionStartTime": 1775905055027,
+  "sessionEndTime": 1775905094501,
+  "keystrokeIntervalsPreview": {
+    "line1": "63, 96, 108, 214, 112, 143, 116, 187, 63, 137, 703, 257, 673, 720, 190, 59, 114, 67, 160, 84, 109, 59, 124, 195, 102",
+    "line2": "123, 83, 172, 73, 91, 121, 211, 89, 69, 91, 106, 162, 145, 154, 103, 28, 133, 189, 128, 736, 161, 144, 67, 136, 482"
+  },
+  "keystrokeStats": {
+    "mean": 220.44970414201183,
+    "stdDev": 294.8234234599119,
+    "min": 28,
+    "max": 2923,
+    "p25": 109,
+    "p50": 146,
+    "p75": 208
+  },
+  "intervalDistribution": {
+    "0-100": 33,
+    "100-200": 92,
+    "200-500": 31,
+    "500+": 13
+  },
+  "averageInterval": 220.44970414201183,
+  "intervalStdDev": 294.8234234599119,
+  "burstWindows": [
+    {
+      "startTime": 1775905055027,
+      "endTime": 1775905057226,
+      "firstKeystrokeTime": 1775905055027,
+      "lastKeystrokeTime": 1775905056969,
+      "characterCount": 12,
+      "wpm": 65.48431105047749
+    },
+    {
+      "startTime": 1775905057226,
+      "endTime": 1775905059293,
+      "firstKeystrokeTime": 1775905057226,
+      "lastKeystrokeTime": 1775905059209,
+      "characterCount": 8,
+      "wpm": 46.44412191582003
+    },
+    {
+      "startTime": 1775905059293,
+      "endTime": 1775905061418,
+      "firstKeystrokeTime": 1775905059293,
+      "lastKeystrokeTime": 1775905061273,
+      "characterCount": 18,
+      "wpm": 101.64705882352942
+    },
+    {
+      "startTime": 1775905061418,
+      "endTime": 1775905063879,
+      "firstKeystrokeTime": 1775905061418,
+      "lastKeystrokeTime": 1775905063397,
+      "characterCount": 12,
+      "wpm": 58.512799674928885
+    },
+    {
+      "startTime": 1775905063879,
+      "endTime": 1775905065911,
+      "firstKeystrokeTime": 1775905063879,
+      "lastKeystrokeTime": 1775905065845,
+      "characterCount": 17,
+      "wpm": 100.39370078740156
+    },
+    {
+      "startTime": 1775905065911,
+      "endTime": 1775905067939,
+      "firstKeystrokeTime": 1775905065911,
+      "lastKeystrokeTime": 1775905066292,
+      "characterCount": 3,
+      "wpm": 17.75147928994083
+    },
+    {
+      "startTime": 1775905067939,
+      "endTime": 1775905070271,
+      "firstKeystrokeTime": 1775905067939,
+      "lastKeystrokeTime": 1775905069725,
+      "characterCount": 14,
+      "wpm": 72.04116638078902
+    },
+    {
+      "startTime": 1775905070271,
+      "endTime": 1775905073484,
+      "firstKeystrokeTime": 1775905070271,
+      "lastKeystrokeTime": 1775905071965,
+      "characterCount": 7,
+      "wpm": 26.143790849673202
+    },
+    {
+      "startTime": 1775905073484,
+      "endTime": 1775905075596,
+      "firstKeystrokeTime": 1775905073484,
+      "lastKeystrokeTime": 1775905075388,
+      "characterCount": 13,
+      "wpm": 73.86363636363636
+    },
+    {
+      "startTime": 1775905075596,
+      "endTime": 1775905077691,
+      "firstKeystrokeTime": 1775905075596,
+      "lastKeystrokeTime": 1775905077077,
+      "characterCount": 8,
+      "wpm": 45.82338902147972
+    },
+    {
+      "startTime": 1775905077691,
+      "endTime": 1775905079720,
+      "firstKeystrokeTime": 1775905077691,
+      "lastKeystrokeTime": 1775905079558,
+      "characterCount": 7,
+      "wpm": 41.39970428782651
+    },
+    {
+      "startTime": 1775905079720,
+      "endTime": 1775905081851,
+      "firstKeystrokeTime": 1775905079720,
+      "lastKeystrokeTime": 1775905081508,
+      "characterCount": 13,
+      "wpm": 73.20506804317222
+    },
+    {
+      "startTime": 1775905081851,
+      "endTime": 1775905083950,
+      "firstKeystrokeTime": 1775905081851,
+      "lastKeystrokeTime": 1775905083800,
+      "characterCount": 9,
+      "wpm": 51.45307289185327
+    },
+    {
+      "startTime": 1775905083950,
+      "endTime": 1775905086151,
+      "firstKeystrokeTime": 1775905083950,
+      "lastKeystrokeTime": 1775905085935,
+      "characterCount": 11,
+      "wpm": 59.97273966378919
+    },
+    {
+      "startTime": 1775905086151,
+      "endTime": 1775905090139,
+      "firstKeystrokeTime": 1775905086151,
+      "lastKeystrokeTime": 1775905087216,
+      "characterCount": 5,
+      "wpm": 15.045135406218657
+    },
+    {
+      "startTime": 1775905090139,
+      "endTime": 1775905092283,
+      "firstKeystrokeTime": 1775905090139,
+      "lastKeystrokeTime": 1775905092093,
+      "characterCount": 12,
+      "wpm": 67.16417910447761
+    },
+    {
+      "startTime": 1775905092283,
+      "endTime": 1775905094503,
+      "firstKeystrokeTime": 1775905092283,
+      "lastKeystrokeTime": 1775905092283,
+      "characterCount": 1,
+      "wpm": 5.405405405405406
+    }
+  ],
+  "burstVariance": 49.26581391458822,
+  "averageBurstLength": 10,
+  "burstLengthStdDev": 4.485270009578412,
+  "averageBurstPause": 597,
+  "burstPauseStdDev": 756.6244940523668,
+  "isPotentialBot": false,
+  "punctuationPauses": [],
+  "averagePunctuationPause": 0,
+  "punctuationPauseStdDev": 0,
+  "backspaceRatio": 0.07058823529411765,
+  "correctionRate": 70.58823529411765,
+  "correctionClusters": 2,
+  "averageCorrectionLatency": 626.8333333333334,
+  "correctionScore": 97,
+  "pasteEvents": [],
+  "totalPasteCount": 0,
+  "totalPastedLength": 0,
+  "largePasteEvents": [],
+  "focusEvents": [
+    {
+      "type": "focus",
+      "timestamp": 1775905054209
+    },
+    {
+      "type": "blur",
+      "timestamp": 1775905094284
+    }
+  ],
+  "timeSpentOffPage": 0,
+  "blurCount": 1,
+  "humanAuthenticityScore": 76,
+  "confidenceLevel": "high",
+  "riskFlags": []
+}
+====================
+
+====================
+Time: 2026-04-11T11:30:13.593Z
+{
+  "totalCharacters": 165,
+  "totalBackspaces": 19,
+  "sessionDuration": 38527,
+  "sessionStartTime": 1775906975013,
+  "sessionEndTime": 1775907013540,
+  "keystrokeIntervalsPreview": {
+    "line1": "108, 70, 176, 257, 1204, 82, 105, 165, 86, 113, 126, 206, 117, 153, 160, 98, 110, 103, 103, 136, 110, 110, 149, 101, 185",
+    "line2": "24, 218, 113, 60, 120, 144, 116, 606, 649, 159, 137, 1041, 3372, 136, 99, 149, 87, 72, 131, 135, 117, 169, 173, 169, 160"
+  },
+  "keystrokeStats": {
+    "mean": 222.0060975609756,
+    "stdDev": 441.86367361481604,
+    "min": 18,
+    "max": 3372,
+    "p25": 102,
+    "p50": 125.5,
+    "p75": 169
+  },
+  "intervalDistribution": {
+    "0-100": 35,
+    "100-200": 102,
+    "200-500": 18,
+    "500+": 9
+  },
+  "averageInterval": 222.0060975609756,
+  "intervalStdDev": 441.86367361481604,
+  "burstWindows": [
+    {
+      "startTime": 1775906975013,
+      "endTime": 1775906977015,
+      "firstKeystrokeTime": 1775906975013,
+      "lastKeystrokeTime": 1775906976910,
+      "characterCount": 7,
+      "wpm": 41.95804195804195
+    },
+    {
+      "startTime": 1775906977015,
+      "endTime": 1775906979060,
+      "firstKeystrokeTime": 1775906977015,
+      "lastKeystrokeTime": 1775906978911,
+      "characterCount": 16,
+      "wpm": 93.8875305623472
+    },
+    {
+      "startTime": 1775906979060,
+      "endTime": 1775906981396,
+      "firstKeystrokeTime": 1775906979060,
+      "lastKeystrokeTime": 1775906980747,
+      "characterCount": 11,
+      "wpm": 56.5068493150685
+    },
+    {
+      "startTime": 1775906981396,
+      "endTime": 1775906986105,
+      "firstKeystrokeTime": 1775906981396,
+      "lastKeystrokeTime": 1775906982733,
+      "characterCount": 4,
+      "wpm": 10.193246973879805
+    },
+    {
+      "startTime": 1775906986105,
+      "endTime": 1775906988141,
+      "firstKeystrokeTime": 1775906986105,
+      "lastKeystrokeTime": 1775906988060,
+      "characterCount": 16,
+      "wpm": 94.30255402750491
+    },
+    {
+      "startTime": 1775906988141,
+      "endTime": 1775906990403,
+      "firstKeystrokeTime": 1775906988141,
+      "lastKeystrokeTime": 1775906989962,
+      "characterCount": 15,
+      "wpm": 79.57559681697613
+    },
+    {
+      "startTime": 1775906990403,
+      "endTime": 1775906992419,
+      "firstKeystrokeTime": 1775906990403,
+      "lastKeystrokeTime": 1775906992190,
+      "characterCount": 16,
+      "wpm": 95.23809523809526
+    },
+    {
+      "startTime": 1775906992419,
+      "endTime": 1775906994578,
+      "firstKeystrokeTime": 1775906992419,
+      "lastKeystrokeTime": 1775906994397,
+      "characterCount": 15,
+      "wpm": 83.37193144974526
+    },
+    {
+      "startTime": 1775906994578,
+      "endTime": 1775906996599,
+      "firstKeystrokeTime": 1775906994578,
+      "lastKeystrokeTime": 1775906996521,
+      "characterCount": 17,
+      "wpm": 100.94012864918356
+    },
+    {
+      "startTime": 1775906996599,
+      "endTime": 1775906999726,
+      "firstKeystrokeTime": 1775906996599,
+      "lastKeystrokeTime": 1775906996599,
+      "characterCount": 1,
+      "wpm": 3.837543971858011
+    },
+    {
+      "startTime": 1775906999726,
+      "endTime": 1775907001896,
+      "firstKeystrokeTime": 1775906999726,
+      "lastKeystrokeTime": 1775907001533,
+      "characterCount": 17,
+      "wpm": 94.00921658986175
+    },
+    {
+      "startTime": 1775907001896,
+      "endTime": 1775907003963,
+      "firstKeystrokeTime": 1775907001896,
+      "lastKeystrokeTime": 1775907003845,
+      "characterCount": 10,
+      "wpm": 58.055152394775035
+    },
+    {
+      "startTime": 1775907003963,
+      "endTime": 1775907006105,
+      "firstKeystrokeTime": 1775907003963,
+      "lastKeystrokeTime": 1775907005862,
+      "characterCount": 11,
+      "wpm": 61.62464985994398
+    },
+    {
+      "startTime": 1775907006105,
+      "endTime": 1775907010816,
+      "firstKeystrokeTime": 1775907006105,
+      "lastKeystrokeTime": 1775907007626,
+      "characterCount": 4,
+      "wpm": 10.188919549989388
+    },
+    {
+      "startTime": 1775907010816,
+      "endTime": 1775907013540,
+      "firstKeystrokeTime": 1775907010816,
+      "lastKeystrokeTime": 1775907011422,
+      "characterCount": 5,
+      "wpm": 22.026431718061673
+    }
+  ],
+  "burstVariance": 56.12845528446141,
+  "averageBurstLength": 11,
+  "burstLengthStdDev": 5.354126134736337,
+  "averageBurstPause": 880.4285714285714,
+  "burstPauseStdDev": 1237.0456576794866,
+  "isPotentialBot": false,
+  "punctuationPauses": [],
+  "averagePunctuationPause": 0,
+  "punctuationPauseStdDev": 0,
+  "backspaceRatio": 0.11515151515151516,
+  "correctionRate": 115.15151515151516,
+  "correctionClusters": 1,
+  "averageCorrectionLatency": 453.5,
+  "correctionScore": 89,
+  "pasteEvents": [],
+  "totalPasteCount": 0,
+  "totalPastedLength": 0,
+  "largePasteEvents": [],
+  "focusEvents": [
+    {
+      "type": "focus",
+      "timestamp": 1775906973061
+    },
+    {
+      "type": "blur",
+      "timestamp": 1775907013310
+    }
+  ],
+  "timeSpentOffPage": 0,
+  "blurCount": 1,
+  "humanAuthenticityScore": 60,
+  "confidenceLevel": "medium",
+  "riskFlags": [
+    "LOW_RHYTHM_ENTROPY: Consistent timing patterns detected"
+  ]
+}
+====================

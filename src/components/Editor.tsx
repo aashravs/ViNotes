@@ -4,17 +4,19 @@ const editorStyles = {
   textarea: {
     width: "calc(100% - 2px)",
     minHeight: "350px",
-    padding: "16px",
-    fontSize: "16px",
-    lineHeight: "30px",
+    padding: "22px",
+    fontSize: "18px",
+    lineHeight: "32px",
     fontFamily: "'Georgia', 'Times New Roman', Times, serif",
-    border: "none",
-    borderRadius: "0",
+    border: "1px solid rgba(0,0,0,0.08)",
+    borderRadius: "12px",
     outline: "none",
     resize: "vertical" as const,
-    transition: "all 0.2s ease",
-    backgroundColor: "transparent",
-    color: "#2c3e50",
+    transition: "background-color 0.15s ease, box-shadow 0.15s ease",
+    backgroundColor: "#fffdfb",
+    color: "#2b211c",
+    letterSpacing: "0.2px",
+    caretColor: "#b06040",
     boxSizing: "border-box" as const,
   },
 };
@@ -43,7 +45,11 @@ export default function Editor({ handleKeyDown, handlePaste, handleFocus, handle
       onBlur={handleBlurEvent}
       style={{
         ...editorStyles.textarea,
-        backgroundColor: isFocused ? "rgba(102, 126, 234, 0.05)" : "transparent",
+        backgroundColor: isFocused ? "#fffdfb" : "#fffdfb",
+        borderColor: isFocused ? "#b06040" : "rgba(0,0,0,0.08)",
+        boxShadow: isFocused
+          ? "inset 0 2px 4px rgba(0,0,0,0.06)"
+          : "inset 0 2px 4px rgba(0,0,0,0.06)",
       }}
       placeholder="Start typing your text here..."
     />

@@ -1,0 +1,186 @@
+
+====================
+Time: 2026-04-11T07:56:54.350Z
+{
+  "totalCharacters": 80,
+  "totalBackspaces": 8,
+  "sessionDuration": 26235,
+  "sessionStartTime": 1775894188061,
+  "sessionEndTime": 1775894214296,
+  "keystrokeIntervals": [
+    89,
+    220,
+    111,
+    109,
+    281,
+    189,
+    108,
+    215,
+    107,
+    90,
+    86,
+    223,
+    69,
+    144,
+    46,
+    211,
+    37,
+    103,
+    148,
+    84,
+    145,
+    255,
+    202,
+    95,
+    145,
+    126,
+    77,
+    1326,
+    150,
+    178,
+    1424,
+    127,
+    959,
+    124,
+    90,
+    93,
+    154,
+    1137,
+    236,
+    573,
+    165,
+    491,
+    182,
+    209,
+    54,
+    82,
+    107,
+    716,
+    148,
+    382,
+    226,
+    154,
+    105,
+    162,
+    117,
+    124,
+    237,
+    75,
+    96,
+    121,
+    2255,
+    975,
+    146,
+    108,
+    170,
+    68,
+    180,
+    118,
+    124,
+    171,
+    1264,
+    241,
+    1094,
+    496,
+    967,
+    290,
+    143,
+    214,
+    203
+  ],
+  "averageInterval": 297.0379746835443,
+  "intervalStdDev": 387.32717478906034,
+  "burstWindows": [
+    {
+      "startTime": 1775894188061,
+      "endTime": 1775894190102,
+      "characterCount": 14,
+      "wpm": 82.31259186673199
+    },
+    {
+      "startTime": 1775894190102,
+      "endTime": 1775894193102,
+      "characterCount": 14,
+      "wpm": 55.99999999999999
+    },
+    {
+      "startTime": 1775894193102,
+      "endTime": 1775894195940,
+      "characterCount": 5,
+      "wpm": 21.14164904862579
+    },
+    {
+      "startTime": 1775894195940,
+      "endTime": 1775894198347,
+      "characterCount": 7,
+      "wpm": 34.898213543830494
+    },
+    {
+      "startTime": 1775894198347,
+      "endTime": 1775894200353,
+      "characterCount": 8,
+      "wpm": 47.85643070787637
+    },
+    {
+      "startTime": 1775894200353,
+      "endTime": 1775894204555,
+      "characterCount": 13,
+      "wpm": 37.12517848643503
+    },
+    {
+      "startTime": 1775894204555,
+      "endTime": 1775894206615,
+      "characterCount": 9,
+      "wpm": 52.42718446601942
+    },
+    {
+      "startTime": 1775894206615,
+      "endTime": 1775894209214,
+      "characterCount": 3,
+      "wpm": 13.851481338976528
+    },
+    {
+      "startTime": 1775894209214,
+      "endTime": 1775894211324,
+      "characterCount": 5,
+      "wpm": 28.436018957345972
+    },
+    {
+      "startTime": 1775894211324,
+      "endTime": 1775894214296,
+      "characterCount": 2,
+      "wpm": 8.075370121130552
+    }
+  ],
+  "burstVariance": 55.24891926397799,
+  "isPotentialBot": false,
+  "punctuationPauses": [],
+  "averagePunctuationPause": 0,
+  "punctuationPauseStdDev": 0,
+  "backspaceRatio": 0.1,
+  "correctionRate": 100,
+  "pasteEvents": [],
+  "totalPasteCount": 0,
+  "totalPastedLength": 0,
+  "largePasteEvents": [],
+  "focusEvents": [
+    {
+      "type": "focus",
+      "timestamp": 1775894187719
+    },
+    {
+      "type": "blur",
+      "timestamp": 1775894214076
+    }
+  ],
+  "timeSpentOffPage": 0,
+  "blurCount": 1,
+  "humanAuthenticityScore": 78,
+  "confidenceLevel": "high",
+  "riskFlags": [
+    "ANOMALOUS_PUNCTUATION_PAUSES: Unnatural pause patterns",
+    "TAB_SWITCHING: User switched tabs 1 time - potential content source switching",
+    "EXCESSIVE_PAGE_ABSENCE: Unusual focus patterns"
+  ]
+}
+====================
