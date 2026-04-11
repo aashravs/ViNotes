@@ -274,3 +274,105 @@ Time: 2026-04-10T20:31:42.144Z
   ]
 }
 ====================
+
+====================
+Time: 2026-04-11T12:55:39.462Z
+{
+  "totalCharacters": 78,
+  "totalBackspaces": 0,
+  "sessionDuration": 10699,
+  "sessionStartTime": 1775912128700,
+  "sessionEndTime": 1775912139399,
+  "keystrokeIntervalsPreview": {
+    "line1": "80, 3, 153, 37, 28, 91, 44, 28, 152, 2, 142, 108, 16, 15, 49, 221, 14, 53, 132, 71, 50, 163, 97, 6, 285",
+    "line2": "120, 119, 92, 33, 3, 48, 132, 48, 84, 36, 73, 107, 42, 107, 21, 47, 72, 48, 16, 43, 17, 3, 88, 49, 2"
+  },
+  "keystrokeStats": {
+    "mean": 78.94805194805195,
+    "stdDev": 80.95066576880566,
+    "min": 2,
+    "max": 448,
+    "p25": 21,
+    "p50": 49,
+    "p75": 108
+  },
+  "intervalDistribution": {
+    "0-100": 53,
+    "100-200": 18,
+    "200-500": 6,
+    "500+": 0
+  },
+  "averageInterval": 78.94805194805195,
+  "intervalStdDev": 80.95066576880566,
+  "burstWindows": [
+    {
+      "startTime": 1775912128700,
+      "endTime": 1775912130740,
+      "firstKeystrokeTime": 1775912128700,
+      "lastKeystrokeTime": 1775912130455,
+      "characterCount": 25,
+      "wpm": 147.05882352941177
+    },
+    {
+      "startTime": 1775912130740,
+      "endTime": 1775912132804,
+      "firstKeystrokeTime": 1775912130740,
+      "lastKeystrokeTime": 1775912132572,
+      "characterCount": 34,
+      "wpm": 197.67441860465115
+    },
+    {
+      "startTime": 1775912132804,
+      "endTime": 1775912139400,
+      "firstKeystrokeTime": 1775912132804,
+      "lastKeystrokeTime": 1775912134779,
+      "characterCount": 19,
+      "wpm": 34.56640388114008
+    }
+  ],
+  "burstVariance": 53.915451940881695,
+  "averageBurstLength": 26,
+  "burstLengthStdDev": 6.164414002968976,
+  "averageBurstPause": 258.5,
+  "burstPauseStdDev": 26.5,
+  "isPotentialBot": false,
+  "punctuationPauses": [
+    {
+      "punctuationChar": ".",
+      "pauseDuration": 142,
+      "timestamp": 1775912129460
+    },
+    {
+      "punctuationChar": ".",
+      "pauseDuration": 163,
+      "timestamp": 1775912130352
+    }
+  ],
+  "averagePunctuationPause": 152.5,
+  "punctuationPauseStdDev": 10.5,
+  "backspaceRatio": 0,
+  "correctionRate": 0,
+  "correctionClusters": 0,
+  "averageCorrectionLatency": 0,
+  "correctionScore": 59,
+  "pasteEvents": [],
+  "totalPasteCount": 0,
+  "totalPastedLength": 0,
+  "largePasteEvents": [],
+  "focusEvents": [
+    {
+      "type": "focus",
+      "timestamp": 1775912128117
+    },
+    {
+      "type": "blur",
+      "timestamp": 1775912139177
+    }
+  ],
+  "timeSpentOffPage": 0,
+  "blurCount": 1,
+  "humanAuthenticityScore": 84,
+  "confidenceLevel": "high",
+  "riskFlags": []
+}
+====================

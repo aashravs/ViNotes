@@ -1,0 +1,98 @@
+
+====================
+Time: 2026-04-11T16:21:44.629Z
+Name: uoasduas
+Email: basid@jasolfoa
+Session Duration: 6 seconds
+
+{
+  "totalCharacters": 60,
+  "totalBackspaces": 0,
+  "sessionDuration": 4923,
+  "sessionStartTime": 1775924499683,
+  "sessionEndTime": 1775924504606,
+  "keystrokeIntervalsPreview": {
+    "line1": "128, 128, 1, 14, 32, 59, 1, 109, 45, 23, 90, 91, 1, 1, 78, 111, 19, 135, 31, 16, 2, 1, 86, 64, 27",
+    "line2": "1, 46, 76, 2, 1, 72, 93, 65, 67, 24, 40, 37, 36, 35, 31, 103, 1, 17, 260, 192, 1, 1, 325, 1, 158"
+  },
+  "keystrokeStats": {
+    "mean": 57.74576271186441,
+    "stdDev": 65.47158607930852,
+    "min": 1,
+    "max": 325,
+    "p25": 1.5,
+    "p50": 36,
+    "p75": 88
+  },
+  "intervalDistribution": {
+    "0-100": 47,
+    "100-200": 10,
+    "200-500": 2,
+    "500+": 0
+  },
+  "averageInterval": 57.74576271186441,
+  "intervalStdDev": 65.47158607930852,
+  "burstWindows": [
+    {
+      "startTime": 1775924499683,
+      "endTime": 1775924501705,
+      "firstKeystrokeTime": 1775924499683,
+      "lastKeystrokeTime": 1775924501602,
+      "characterCount": 41,
+      "wpm": 243.3234421364985
+    },
+    {
+      "startTime": 1775924501705,
+      "endTime": 1775924504607,
+      "firstKeystrokeTime": 1775924501705,
+      "lastKeystrokeTime": 1775924503090,
+      "characterCount": 19,
+      "wpm": 78.56650585802893
+    }
+  ],
+  "burstVariance": 51.18424396442185,
+  "averageBurstLength": 30,
+  "burstLengthStdDev": 11,
+  "averageBurstPause": 103,
+  "burstPauseStdDev": 0,
+  "isPotentialBot": false,
+  "punctuationPauses": [
+    {
+      "punctuationChar": ";",
+      "pauseDuration": 103,
+      "timestamp": 1775924501705
+    },
+    {
+      "punctuationChar": ";",
+      "pauseDuration": 1,
+      "timestamp": 1775924502503
+    }
+  ],
+  "averagePunctuationPause": 52,
+  "punctuationPauseStdDev": 51,
+  "backspaceRatio": 0,
+  "correctionRate": 0,
+  "correctionClusters": 0,
+  "averageCorrectionLatency": 0,
+  "correctionScore": 59,
+  "pasteEvents": [],
+  "totalPasteCount": 0,
+  "totalPastedLength": 0,
+  "largePasteEvents": [],
+  "focusEvents": [
+    {
+      "type": "focus",
+      "timestamp": 1775924499434
+    },
+    {
+      "type": "blur",
+      "timestamp": 1775924504388
+    }
+  ],
+  "timeSpentOffPage": 0,
+  "blurCount": 1,
+  "humanAuthenticityScore": 79,
+  "confidenceLevel": "high",
+  "riskFlags": []
+}
+====================

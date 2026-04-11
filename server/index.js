@@ -7,9 +7,9 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/log", (req, res) => {
-  const { email, data } = req.body;
+  const { name, email, duration, data } = req.body;
 
-  if (!email || !data) {
+  if (!name || !email || !data || duration === undefined) {
     return res.status(400).send("Missing email or data");
   }
 
@@ -19,6 +19,10 @@ app.post("/log", (req, res) => {
   const log = `
 ====================
 Time: ${new Date().toISOString()}
+Name: ${name}
+Email: ${email}
+Session Duration: ${duration} seconds
+
 ${JSON.stringify(data, null, 2)}
 ====================
 `;

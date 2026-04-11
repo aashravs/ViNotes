@@ -85,6 +85,9 @@ function App() {
   const [results, setResults] = useState<{ wpm: number; errorRate: number } | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [sessionDuration, setSessionDuration] = useState<number>(0);
+
   const [sessionStarted, setSessionStarted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -127,10 +130,20 @@ function App() {
     setFormError(null);
     setName(trimmedName);
     setEmail(trimmedEmail);
+    setStartTime(Date.now());
     setSessionStarted(true);
   };
 
   const handleFinish = () => {
+    const endTime = Date.now();
+
+    const durationSeconds = startTime
+      ? Math.floor((endTime - startTime) / 1000)
+      : 0;
+
+    setSessionDuration(durationSeconds);
+
+
     const finalSession = tracker.processFinalData();
     if (!finalSession) return;
 
@@ -140,7 +153,9 @@ function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        name: name,
         email: email,
+        duration: durationSeconds,
         data: finalSession,
       }),
     });
@@ -308,6 +323,9 @@ function App() {
               </div>
               <div style={{ fontSize: "22px", fontWeight: 600, color: "#5e4b43", marginTop: "14px" }}>
                 Error Rate: {results.errorRate.toFixed(3)}
+              </div>
+              <div style={{ fontSize: "18px", marginTop: "12px", color: "#2b211c" }}>
+                Session Duration: {Math.floor(sessionDuration / 60)}m {sessionDuration % 60}s
               </div>
             </div>
 

@@ -1,0 +1,92 @@
+
+====================
+Time: 2026-04-11T13:10:42.181Z
+Name: yazdan Irfan
+Email: xyz@gmail.com
+
+{
+  "totalCharacters": 53,
+  "totalBackspaces": 0,
+  "sessionDuration": 5072,
+  "sessionStartTime": 1775913037064,
+  "sessionEndTime": 1775913042136,
+  "keystrokeIntervalsPreview": {
+    "line1": "125, 77, 57, 20, 55, 50, 122, 26, 70, 38, 3, 230, 3, 2, 2, 71, 30, 98, 15, 30, 54, 20, 37, 263, 16",
+    "line2": "124, 2, 40, 107, 15, 160, 26, 51, 66, 209, 81, 3, 85, 103, 37, 40, 136, 3, 81, 78, 58, 17, 35, 43, 37"
+  },
+  "keystrokeStats": {
+    "mean": 63.17307692307692,
+    "stdDev": 57.683060156289244,
+    "min": 2,
+    "max": 263,
+    "p25": 24.5,
+    "p50": 46.5,
+    "p75": 82
+  },
+  "intervalDistribution": {
+    "0-100": 41,
+    "100-200": 8,
+    "200-500": 3,
+    "500+": 0
+  },
+  "averageInterval": 63.17307692307692,
+  "intervalStdDev": 57.683060156289244,
+  "burstWindows": [
+    {
+      "startTime": 1775913037064,
+      "endTime": 1775913039103,
+      "firstKeystrokeTime": 1775913037064,
+      "lastKeystrokeTime": 1775913039052,
+      "characterCount": 33,
+      "wpm": 194.21284943599804
+    },
+    {
+      "startTime": 1775913039103,
+      "endTime": 1775913042136,
+      "firstKeystrokeTime": 1775913039103,
+      "lastKeystrokeTime": 1775913040349,
+      "characterCount": 20,
+      "wpm": 79.1295746785361
+    }
+  ],
+  "burstVariance": 42.10223682996259,
+  "averageBurstLength": 26.5,
+  "burstLengthStdDev": 6.5,
+  "averageBurstPause": 51,
+  "burstPauseStdDev": 0,
+  "isPotentialBot": false,
+  "punctuationPauses": [
+    {
+      "punctuationChar": ".",
+      "pauseDuration": 38,
+      "timestamp": 1775913037704
+    }
+  ],
+  "averagePunctuationPause": 38,
+  "punctuationPauseStdDev": 0,
+  "backspaceRatio": 0,
+  "correctionRate": 0,
+  "correctionClusters": 0,
+  "averageCorrectionLatency": 0,
+  "correctionScore": 59,
+  "pasteEvents": [],
+  "totalPasteCount": 0,
+  "totalPastedLength": 0,
+  "largePasteEvents": [],
+  "focusEvents": [
+    {
+      "type": "focus",
+      "timestamp": 1775913036758
+    },
+    {
+      "type": "blur",
+      "timestamp": 1775913041907
+    }
+  ],
+  "timeSpentOffPage": 0,
+  "blurCount": 1,
+  "humanAuthenticityScore": 80,
+  "confidenceLevel": "high",
+  "riskFlags": []
+}
+====================
