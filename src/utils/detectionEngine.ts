@@ -13,7 +13,6 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
 
   // 2. Punctuation Score (0-100)
   // Humans typically have 300ms-800ms cognitive pause after punctuation
-  // AI/Bots have near-zero or perfectly constant pause
   const punctuationScore = calculatePunctuationScore(
     sessionData.averagePunctuationPause || 0,
     sessionData.punctuationPauseStdDev || 0
