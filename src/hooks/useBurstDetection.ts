@@ -11,10 +11,9 @@ interface UseBurstDetectionReturn {
   reset: () => void;
 }
 
-const WINDOW_DURATION = 2000; // 2 seconds 
+const WINDOW_DURATION = 2000; 
 
 function computeBurstStats(burstWindows: BurstWindow[]) {
-  // Burst size variability is a simple proxy for "stop to think, then type" behavior.
   if (!burstWindows.length) {
     return { averageBurstLength: 0, burstLengthStdDev: 0 };
   }
@@ -28,8 +27,6 @@ function computeBurstStats(burstWindows: BurstWindow[]) {
 }
 
 function computeBurstPauseStats(burstWindows: BurstWindow[]) {
-  // Window timestamps are continuous (2s buckets), so startTime/endTime gaps are almost always 0.
-  // Keystroke timestamps capture real pauses: last key in burst A -> first key in burst B.
   if (burstWindows.length < 2) {
     return { averageBurstPause: 0, burstPauseStdDev: 0 };
   }
@@ -61,7 +58,6 @@ export function useBurstDetection(): UseBurstDetectionReturn {
   } | null>(null);
   const sessionStartTime = useRef<number | null>(null);
 
-  // Process completed window
   const processWindow = useCallback((
     startTime: number,
     endTime: number,
@@ -82,14 +78,12 @@ export function useBurstDetection(): UseBurstDetectionReturn {
     });
   }, []);
 
-  // Check if current window needs to be closed
   const checkWindowBoundary = useCallback((timestamp: number) => {
     if (!currentWindow.current) return;
 
     const windowElapsed = timestamp - currentWindow.current.startTime;
     
     if (windowElapsed >= WINDOW_DURATION) {
-      // Close current window
       processWindow(
         currentWindow.current.startTime,
         timestamp,
@@ -98,7 +92,6 @@ export function useBurstDetection(): UseBurstDetectionReturn {
         currentWindow.current.lastKeystrokeTime
       );
       
-      // Start new window
       currentWindow.current = {
         startTime: timestamp,
         characterCount: 0,
@@ -122,10 +115,8 @@ export function useBurstDetection(): UseBurstDetectionReturn {
       };
     }
 
-    // Check if we need to close the current window
     checkWindowBoundary(timestamp);
 
-    // Record character in current window
     if (currentWindow.current) {
       currentWindow.current.characterCount++;
       currentWindow.current.lastKeystrokeTime = timestamp;
@@ -133,7 +124,6 @@ export function useBurstDetection(): UseBurstDetectionReturn {
   }, [checkWindowBoundary]);
 
   const getBurstWindows = useCallback(() => {
-    // Return copy of windows plus current window if it exists
     const windows = [...burstWindows.current];
     
     if (currentWindow.current && currentWindow.current.characterCount > 0) {
@@ -164,11 +154,9 @@ export function useBurstDetection(): UseBurstDetectionReturn {
     const wpms = windows.map(w => w.wpm);
     const average = wpms.reduce((sum, wpm) => sum + wpm, 0) / wpms.length;
     
-    // Calculate coefficient of variation (CV) = (stdDev / mean) * 100
     const variance = wpms.reduce((sum, wpm) => sum + Math.pow(wpm - average, 2), 0) / wpms.length;
     const stdDev = Math.sqrt(variance);
     
-    // Return as percentage
     return average > 0 ? (stdDev / average) * 100 : 0;
   }, [getBurstWindows]);
 
@@ -184,7 +172,6 @@ export function useBurstDetection(): UseBurstDetectionReturn {
 
   const isPotentialBot = useCallback(() => {
     const variance = getBurstVariance();
-    // If variance between windows is < 10%, flag as potential bot
     return variance < 10 && variance > 0;
   }, [getBurstVariance]);
 

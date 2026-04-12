@@ -6,7 +6,6 @@ import { analyzeSession } from "../utils/detectionEngine";
 import { SessionData, PasteEvent, FocusEvent } from "../types/session";
 
 function computeKeystrokeStats(intervals: number[]) {
-  // We store a compact summary because raw interval arrays are huge and hard to reason about.
   if (!intervals.length) {
     return {
       mean: 0,
@@ -29,7 +28,6 @@ function computeKeystrokeStats(intervals: number[]) {
   const percentile = (p: number) => {
     if (sorted.length === 1) return sorted[0];
 
-    // Linear interpolation keeps percentiles stable on small samples.
     const position = (sorted.length - 1) * p;
     const lowerIndex = Math.floor(position);
     const upperIndex = Math.ceil(position);
@@ -70,7 +68,6 @@ function computeIntervalDistribution(intervals: number[]) {
 }
 
 function calculateBackspaceClusters(timestamps: number[], windowMs: number) {
-  // Humans tend to correct in short bursts (delete-delete-delete), not perfectly spaced single backspaces.
   if (timestamps.length < 2) return 0;
 
   let clusters = 0;
@@ -92,14 +89,11 @@ function calculateBackspaceClusters(timestamps: number[], windowMs: number) {
 }
 
 export function useTypingTracker() {
-  // State for UI
   const [status, setStatus] = useState("Idle");
 
-  // Custom hooks for advanced telemetry
   const keystrokeDynamics = useKeystrokeDynamics();
   const burstDetection = useBurstDetection();
 
-  // Refs for performance-critical data
   const startTime = useRef<number | null>(null);
   const lastKeyTime = useRef<number | null>(null);
 
@@ -137,7 +131,6 @@ export function useTypingTracker() {
     const averageInterval = keystrokeStats.mean;
     const intervalStdDev = keystrokeStats.stdDev;
 
-    // Two-line preview keeps logs readable without removing raw data
     const previewIntervals = keystrokeIntervals.slice(0, 50);
     const mid = Math.ceil(previewIntervals.length / 2);
     const keystrokeIntervalsPreview = {
@@ -193,10 +186,6 @@ export function useTypingTracker() {
       sessionDuration,
       sessionStartTime: startTime.current,
       sessionEndTime: endTime,
-
-      // Raw keystroke intervals are kept internally for analysis,
-      // but hidden from output to keep logs clean and readable
-      // keystrokeIntervals: keystrokeIntervals.slice(0, 50),
       keystrokeIntervalsPreview,
       keystrokeStats,
       intervalDistribution,
@@ -239,19 +228,15 @@ export function useTypingTracker() {
     return data;
   }, [burstDetection, keystrokeDynamics]);
 
-  // Process final data when Finish button is clicked
   const processFinalData = useCallback(() => {
     if (!startTime.current) return null;
     
-    // End the session
     isSessionActive.current = false;
     setStatus("Session Ended");
     
-    // Process all data
     return processKeystrokeData();
   }, [processKeystrokeData]);
 
-  // Handle key down - collect data only, no processing
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const now = Date.now();
 
@@ -262,7 +247,6 @@ export function useTypingTracker() {
 
     setStatus("Typing...");
 
-    // Track character using burst detection
     if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
       totalChars.current++;
       intervalCharCount.current++;
@@ -273,12 +257,10 @@ export function useTypingTracker() {
       hasBackspacedSinceLastNormal.current = false;
     }
 
-    // Track intervals
     if (lastKeyTime.current) {
       const diff = now - lastKeyTime.current;
       intervals.current.push(diff);
 
-      // Track pauses
       if (diff > 2000) {
         pauseCount.current++;
         longPauses.current.push(diff);
@@ -288,22 +270,18 @@ export function useTypingTracker() {
 
     lastKeyTime.current = now;
 
-    // Track backspaces
     if (e.key === "Backspace") {
       backspaceCount.current++;
       backspaceTimestamps.current.push(now);
 
-      // The first backspace after typing is the most meaningful "correction reaction" signal.
       if (lastNormalInputTime.current && !hasBackspacedSinceLastNormal.current) {
         correctionLatencies.current.push(now - lastNormalInputTime.current);
         hasBackspacedSinceLastNormal.current = true;
       }
     }
 
-    // No automatic processing - only process when Finish is clicked
   }, [burstDetection, keystrokeDynamics]);
 
-  // Handle paste with individual event tracking
   const handlePaste = useCallback((e: ClipboardEvent) => {
     const pastedText = e.clipboardData.getData("text");
     const now = Date.now();
@@ -317,17 +295,13 @@ export function useTypingTracker() {
 
     totalChars.current += pastedText.length;
 
-    // Treat paste as a "normal input" boundary for correction latency tracking.
     lastNormalInputTime.current = now;
     hasBackspacedSinceLastNormal.current = false;
 
-    // Update status
     setStatus("Paste detected");
 
-    // No automatic processing - only process when Finish is clicked
   }, []);
 
-  // Handle focus events
   const handleFocus = useCallback(() => {
     if (lastBlurTime.current) {
       const blurDuration = Date.now() - lastBlurTime.current;
@@ -350,7 +324,6 @@ export function useTypingTracker() {
     });
   }, []);
 
-  // Reset session
   const resetSession = useCallback(() => {
     startTime.current = null;
     lastKeyTime.current = null;

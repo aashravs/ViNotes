@@ -2,17 +2,12 @@ import { SessionData, DetectionEngineResult } from '../types/session';
 
 export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngineResult {
   const riskFlags: string[] = [];
-  
-  // 1. Rhythm Score (0-100)
-  // High entropy (varied timing) suggests human thought
-  // Low entropy suggests virtual keyboard or bot
+
   const rhythmScore = calculateRhythmScore(sessionData.intervalStdDev || 0);
   if (rhythmScore < 30) {
     riskFlags.push('LOW_RHYTHM_ENTROPY: Consistent timing patterns detected');
   }
 
-  // 2. Punctuation Score (0-100)
-  // Humans typically have 300ms-800ms cognitive pause after punctuation
   const punctuationScore = calculatePunctuationScore(
     sessionData.averagePunctuationPause || 0,
     sessionData.punctuationPauseStdDev || 0
@@ -21,8 +16,6 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
     riskFlags.push('ANOMALOUS_PUNCTUATION_PAUSES: Unnatural pause patterns');
   }
 
-  // 3. Correction Score (0-100)
-  // 0 backspaces over 1000+ characters is high-risk for AI-generated text
   const correctionScore = calculateCorrectionScoreAdvanced(
     sessionData.backspaceRatio || 0,
     sessionData.totalCharacters || 0,
@@ -33,8 +26,6 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
     riskFlags.push('ZERO_CORRECTIONS: No backspaces detected in long text');
   }
 
-  // 4. Burst Score (0-100)
-  // Burst variance < 10% indicates potential script/bot
   const burstScore = calculateBurstScore(
     sessionData.burstVariance || 0,
     sessionData.isPotentialBot || false,
@@ -45,8 +36,6 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
     riskFlags.push('CONSTANT_SPEED: Minimal variance in typing speed detected');
   }
 
-  // 5. Paste Score (0-100)
-  // ANY paste event is suspicious in authorship verification
   const pasteScore = calculatePasteScore(
     sessionData.totalPasteCount || 0,
     sessionData.totalPastedLength || 0,
@@ -58,8 +47,6 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
     riskFlags.push(`PASTE_DETECTED: ${pasteRatio.toFixed(1)}% of text was pasted (${sessionData.totalPasteCount} paste event${sessionData.totalPasteCount > 1 ? 's' : ''})`);
   }
 
-  // 6. Focus Score (0-100)
-  // Tab switching is highly suspicious for authorship verification
   const focusScore = calculateFocusScore(
     sessionData.timeSpentOffPage || 0,
     sessionData.sessionDuration || 0,
@@ -72,8 +59,6 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
     riskFlags.push('EXCESSIVE_PAGE_ABSENCE: Unusual focus patterns');
   }
 
-  // Calculate weighted overall score
-  // Increased paste weight since it's a strong indicator of non-original content
   const weights = {
     rhythm: 0.20,
     punctuation: 0.15,
@@ -91,13 +76,11 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
     pasteScore * weights.paste +
     focusScore * weights.focus;
 
-  // If ANY paste occurred, score is automatically 0 regardless of other metrics
   if (sessionData.totalPasteCount && sessionData.totalPasteCount > 0) {
     overallScore = 0;
     riskFlags.push('NON_ORIGINAL_CONTENT: Paste events detected - content cannot be verified as original');
   }
 
-  // Determine confidence level
   let confidenceLevel: 'low' | 'medium' | 'high';
   if (overallScore >= 70) {
     confidenceLevel = 'high';
@@ -122,10 +105,8 @@ export function analyzeSession(sessionData: Partial<SessionData>): DetectionEngi
   };
 }
 
-// Helper functions for individual metrics
 
 function softScore(value: number, idealMin: number, idealMax: number, tolerance: number): number {
-  // A soft score avoids hard cutoffs: perfect in-range, linear decay outside, and clamps to 0-100.
   if (!Number.isFinite(value) || !Number.isFinite(idealMin) || !Number.isFinite(idealMax) || !Number.isFinite(tolerance)) {
     return 0;
   }
@@ -145,12 +126,10 @@ function softScore(value: number, idealMin: number, idealMax: number, tolerance:
 }
 
 function calculateRhythmScore(intervalStdDev: number): number {
-  // Humans have some timing variability; too-uniform or extremely erratic timing is less human-like.
   return softScore(intervalStdDev, 80, 250, 150);
 }
 
 function calculatePunctuationScore(averagePause: number, stdDev: number): number {
-  // Pause after punctuation reflects cognition; we expect a loose 200-800ms center with some variability.
   const pauseScore = softScore(averagePause, 200, 800, 400);
   const variabilityScore = softScore(stdDev, 30, 250, 250);
 
@@ -159,8 +138,6 @@ function calculatePunctuationScore(averagePause: number, stdDev: number): number
 }
 
 function calculateCorrectionScore(backspaceRatio: number, totalChars: number): number {
-  // Ideal human ratio: 0.02-0.10 (2-10%)
-  // Made more lenient for normal human typing
   if (totalChars > 1000 && backspaceRatio === 0) return 30;
   if (totalChars > 500 && backspaceRatio === 0) return 50;
   
@@ -169,7 +146,7 @@ function calculateCorrectionScore(backspaceRatio: number, totalChars: number): n
   if (backspaceRatio <= 0.10) return 95;
   if (backspaceRatio <= 0.20) return 85;
   if (backspaceRatio <= 0.30) return 70;
-  return 50; // Too many corrections might indicate struggle
+  return 50;
 }
 
 function calculateCorrectionScoreAdvanced(

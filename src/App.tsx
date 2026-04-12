@@ -82,8 +82,8 @@ const appStyles = {
 
 function App() {
 
-  const [results, setResults] = useState<{ wpm: number; errorRate: number } | null>(null); //so this storesthe final metrics
-  const [name, setName] = useState(""); // this is just for user's identity
+  const [results, setResults] = useState<{ wpm: number; errorRate: number } | null>(null); 
+  const [name, setName] = useState(""); 
   const [email, setEmail] = useState("");
   const [startTime, setStartTime] = useState<number | null>(null);
   const [sessionDuration, setSessionDuration] = useState<number>(0);

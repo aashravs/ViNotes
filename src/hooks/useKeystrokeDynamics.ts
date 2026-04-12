@@ -19,10 +19,7 @@ export function useKeystrokeDynamics(): UseKeystrokeDynamicsReturn {
       const interval = timestamp - lastKeyTime.current;
       keystrokeIntervals.current.push(interval);
 
-      // Punctuation thinking time calculation
-      // Specifically measure the interval between a punctuation mark and the next alphanumeric character
       if (lastChar.current && /[.,!?;:]/.test(lastChar.current)) {
-        // Only count as punctuation pause if the next character is alphanumeric
         if (/[a-zA-Z0-9]/.test(key)) {
           punctuationPauses.current.push({
             punctuationChar: lastChar.current,
@@ -60,7 +57,6 @@ export function useKeystrokeDynamics(): UseKeystrokeDynamicsReturn {
   };
 }
 
-// Helper function to calculate statistics
 export function calculatePunctuationPauseStats(pauses: PunctuationPause[]) {
   if (pauses.length === 0) {
     return {
@@ -83,7 +79,6 @@ export function calculatePunctuationPauseStats(pauses: PunctuationPause[]) {
   };
 }
 
-// Helper function to calculate rhythm entropy (standard deviation of intervals)
 export function calculateRhythmEntropy(intervals: number[]) {
   if (intervals.length === 0) {
     return 0;
