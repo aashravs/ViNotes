@@ -91,7 +91,7 @@ function App() {
   const [sessionStarted, setSessionStarted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const tracker = useTypingTracker(email);//added email tracker
+  const tracker = useTypingTracker(email);
 
   const appendSessionToStorage = (sessionData: unknown, userName: string, userEmail: string) => {
     const timestamp = Date.now();

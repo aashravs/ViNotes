@@ -88,7 +88,7 @@ function calculateBackspaceClusters(timestamps: number[], windowMs: number) {
   return clusters;
 }
 
-export function useTypingTracker() {
+export function useTypingTracker(email?:string) {
   const [status, setStatus] = useState("Idle");
 
   const keystrokeDynamics = useKeystrokeDynamics();
