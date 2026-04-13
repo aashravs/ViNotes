@@ -155,22 +155,17 @@ function calculateCorrectionScoreAdvanced(
   correctionClusters: number,
   averageCorrectionLatency: number
 ): number {
-  // Frequency is still the strongest signal, but cluster/latency helps distinguish
-  // "human correction bursts" from perfectly clean or perfectly mechanical input.
   const frequencyScore = calculateCorrectionScore(backspaceRatio, totalChars);
 
-  // Normalize clusters by length so long texts aren't automatically advantaged.
   const charsPer1k = Math.max(totalChars / 1000, 1);
   const clustersPer1k = correctionClusters / charsPer1k;
 
   let clusteringScore = 70;
   if (totalChars < 50) {
-    // Very short samples are noisy; avoid over-penalizing.
     clusteringScore = 75;
   } else if (correctionClusters === 0) {
     clusteringScore = backspaceRatio > 0 ? 75 : 55;
   } else {
-    // A few clusters per 1000 chars feels like natural "fix a word" behavior.
     clusteringScore = 70 + clustersPer1k * 15;
   }
   clusteringScore = Math.max(0, Math.min(100, clusteringScore));
@@ -196,9 +191,6 @@ function calculateCorrectionScoreAdvanced(
     frequencyScore * 0.55 +
     clusteringScore * 0.20 +
     latencyScore * 0.25;
-
-  // Zero corrections over a non-trivial amount of typing is statistically unlikely for humans.
-  // Penalize "too perfect" sessions, but don't make it extreme.
   const perfectTypingCap = (totalChars > 100 && backspaceRatio === 0) ? 35 : 100;
 
   return Math.max(0, Math.min(perfectTypingCap, Math.min(100, score)));
@@ -210,14 +202,12 @@ function calculateBurstScore(
   burstLengthStdDev: number = 0,
   burstPauseStdDev: number = 0
 ): number {
-  // Humans vary in speed, burst size, and the pauses between bursts; we score for moderate variability.
   const varianceScore = softScore(variance, 10, 30, 20);
   const lengthScore = softScore(burstLengthStdDev, 3, 12, 6);
   const pauseScore = softScore(burstPauseStdDev, 50, 250, 200);
 
   const score = varianceScore * 0.5 + lengthScore * 0.25 + pauseScore * 0.25;
 
-  // Keep the existing bot hint as a cap (no signature change), but still compute smoothly.
   const capped = isPotentialBot ? Math.min(40, score) : score;
   return Math.max(0, Math.min(100, capped));
 }
@@ -228,18 +218,14 @@ function calculatePasteScore(
   totalChars: number,
   largePasteCount: number
 ): number {
-  // ANY paste event = non-original content
   if (pasteCount === 0) return 100;
   
-  // If ANY paste occurred, authenticity is severely compromised
-  // regardless of amount
   return 5;
 }
 
 function calculateFocusScore(timeOffPage: number, sessionDuration: number, blurCount: number): number {
   if (sessionDuration === 0) return 100;
 
-  // Occasional tab switching is normal; repeated switching + long time away is more suspicious.
   const safeTimeOffPage = Math.max(0, timeOffPage);
   const offPageRatio = Math.min(1, safeTimeOffPage / Math.max(1, sessionDuration));
 
